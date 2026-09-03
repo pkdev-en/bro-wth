@@ -1,10 +1,96 @@
-/* --- HERO SECTION LAYOUT --- */
+/* ==========================================
+   1. RESET CƠ BẢN & BIẾN MÀU (CSS VARIABLES)
+   ========================================== */
+:root {
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-main: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --border: #e2e8f0;
+    --radius: 12px;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* KHUNG CHUẨN ĐỂ KHÔNG BỊ TRÀN VIỀN LỀ TRÁI */
+main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+/* ==========================================
+   2. THANH ĐIỀU HƯỚNG (NAVBAR)
+   ========================================== */
+.navbar {
+    background-color: #1e1e2f;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.logo span { color: var(--primary); }
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover { color: #ffffff; }
+
+/* ==========================================
+   3. HERO SECTION & TERMINAL
+   ========================================== */
 .hero-container {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
     gap: 2rem;
     align-items: center;
-    padding: 3rem 0;
+    padding: 1rem 0;
 }
 
 .status-pill {
@@ -28,8 +114,8 @@
 }
 
 .hero-title {
-    font-size: 2.5rem;
-    line-height: 1.2;
+    font-size: 2.25rem;
+    line-height: 1.25;
     margin-bottom: 1rem;
 }
 
@@ -39,13 +125,24 @@
     -webkit-text-fill-color: transparent;
 }
 
-/* --- TERMINAL WINDOW --- */
+.hero-subtitle {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    margin-bottom: 1.5rem;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* TERMINAL WINDOW */
 .hero-terminal {
     background: #0f172a;
-    border-radius: 12px;
+    border-radius: var(--radius);
     overflow: hidden;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-    font-family: 'Fira Code', monospace, sans-serif;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25);
+    font-family: 'Fira Code', Consolas, Monaco, monospace;
 }
 
 .terminal-header {
@@ -70,16 +167,67 @@
 .terminal-body {
     padding: 1.2rem;
     color: #e2e8f0;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    overflow-x: auto;
 }
 
-/* Highlight màu code */
 .code-keyword { color: #f43f5e; }
 .code-class { color: #38bdf8; }
 .code-func { color: #a855f7; }
 .code-str { color: #4ade80; }
 
-/* --- PROGRESS BARS FOR SKILLS --- */
+/* ==========================================
+   4. THẺ CARD TỔNG QUÁT & KỸ NĂNG
+   ========================================== */
+.card, .section-block {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.section-header {
+    margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+    font-size: 1.5rem;
+    color: var(--text-main);
+}
+
+.section-header p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* STATS GRID */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+}
+
+.stat-card {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    padding: 1.25rem;
+    text-align: center;
+    border-radius: var(--radius);
+}
+
+.stat-card h3 {
+    font-size: 1.75rem;
+    color: var(--primary);
+    margin-bottom: 4px;
+}
+
+.stat-card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* PROGRESS BARS FOR SKILLS */
 .skills-wrapper {
     display: flex;
     flex-direction: column;
@@ -87,10 +235,10 @@
 }
 
 .skill-card {
-    background: #ffffff;
+    background: #fafafa;
     padding: 1.2rem;
-    border-radius: 10px;
-    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    border: 1px solid var(--border);
 }
 
 .skill-info {
@@ -103,7 +251,7 @@
 .progress-bar {
     width: 100%;
     height: 8px;
-    background: #f1f5f9;
+    background: #e2e8f0;
     border-radius: 4px;
     overflow: hidden;
     margin-bottom: 8px;
@@ -115,46 +263,95 @@
     border-radius: 4px;
 }
 
-/* --- STATS GRID --- */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin: 2rem 0;
+.skill-desc {
+    color: var(--text-muted);
+    font-size: 0.88rem;
 }
 
-.stat-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    padding: 1.5rem;
-    text-align: center;
-    border-radius: 12px;
-}
-
-.stat-card h3 {
-    font-size: 1.8rem;
-    color: #2563eb;
-    margin-bottom: 4px;
-}
-
-/* --- FORM ROW --- */
+/* ==========================================
+   5. FORM & NÚT BẤM (BUTTONS)
+   ========================================== */
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
 
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 1.2rem;
+}
+
+label {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+input, textarea {
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background-color: #fafafa;
+    transition: all 0.2s ease;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    background-color: #ffffff;
+}
+
+/* BUTTONS */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--border);
+}
+
+.btn-outline:hover {
+    background-color: #f1f5f9;
+}
+
 .btn-full {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     gap: 8px;
 }
 
-/* Responsive cho điện thoại */
+/* ==========================================
+   6. RESPONSIVE CHO MÀN HÌNH NHỎ (MOBILE/IPAD)
+   ========================================== */
 @media (max-width: 768px) {
+    main { padding: 1.5rem 1rem; }
     .hero-container, .form-row, .stats-grid {
         grid-template-columns: 1fr;
     }
+    .hero-title { font-size: 1.8rem; }
 }
