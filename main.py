@@ -20,7 +20,7 @@ def contact_page(request: Request):
 def contact_submit(
   request: Request,
   name: str = Form(...),
-  email: str = Form(...)
+  email: str = Form(...),
   message: str = Form(...),
 ):
   print(f"Tin nhan moi tu {name} ({email}): {message}")
