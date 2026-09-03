@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Liên hệ{% endblock %}
+{% block content %}
+    <h1>Liên hệ</h1>
+    {% if sent %}
+        <p>Cảm ơn bạn, tin nhắn đã được gửi!</p>
+    {% else %}
+        <form method="post" action="/contact">
+            <input type="text" name="name" placeholder="Tên" required><br>
+            <input type="email" name="email" placeholder="Email" required><br>
+            <textarea name="message" placeholder="Nội dung" required></textarea><br>
+            <button type="submit">Gửi</button>
+        </form>
+    {% endif %}
+{% endblock %}
