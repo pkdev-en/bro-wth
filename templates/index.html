@@ -1,23 +1,50 @@
 {% extends "base.html" %}
-{% block title %}Giới thiệu{% endblock %}
+
+{% block title %}Giới thiệu — pkdev{% endblock %}
+
 {% block content %}
-    <section class="hero">
-        <div class="hero-badge">Sẵn sàng nhận việc</div>
+    <!-- Thẻ Hero / Giới thiệu -->
+    <section class="card hero-card" id="about">
+        <span class="badge">Sẵn sàng nhận việc</span>
         <h1>Xin chào, mình là <span class="highlight">pkdev</span></h1>
-        <p class="subtitle">Lập trình viên Python — xây dựng web app với FastAPI</p>
-        <div class="hero-actions">
-            <a href="/contact" class="btn-primary">Liên hệ ngay</a>
-            <a href="#skills" class="btn-secondary">Xem kỹ năng</a>
+        <p class="subtitle">Lập trình viên Python — chuyên xây dựng ứng dụng web và RESTful API mượt mà, hiệu quả với FastAPI.</p>
+    </section>
+
+    <!-- Thẻ Kỹ năng -->
+    <section class="card" id="skills">
+        <h2>Kỹ năng chuyên môn</h2>
+        <div class="skill-grid">
+            <div class="skill-item">
+                <h3>Python & FastAPI</h3>
+                <p>Xây dựng Web API, kiến trúc microservices và bất đồng bộ (Async).</p>
+            </div>
+            <div class="skill-item">
+                <h3>Database</h3>
+                <p>PostgreSQL, Firebase Firestore, SQLAlchemy ORM.</p>
+            </div>
         </div>
     </section>
 
-    <section class="skills" id="skills">
-        <h2>Kỹ năng</h2>
-        <div class="skill-grid">
-            <div class="skill-card">
-                <h3>Python</h3>
-                <p>FastAPI, xử lý dữ liệu, tự động hóa</p>
+    <!-- Thẻ Form liên hệ -->
+    <section class="card" id="contact">
+        <h2>Gửi tin nhắn cho mình</h2>
+        <form action="/contact" method="POST">
+            <div class="form-group">
+                <label for="name">Họ và tên</label>
+                <input type="text" id="name" name="name" placeholder="Nguyễn Văn A" required>
             </div>
-        </div>
+
+            <div class="form-group">
+                <label for="email">Địa chỉ Email</label>
+                <input type="email" id="email" name="email" placeholder="name@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Nội dung tin nhắn</label>
+                <textarea id="message" name="message" placeholder="Nhập nội dung bạn muốn trao đổi..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Gửi tin nhắn</button>
+        </form>
     </section>
 {% endblock %}
