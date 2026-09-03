@@ -1,46 +1,131 @@
 {% extends "base.html" %}
 
-{% block title %}Giới thiệu — pkdev{% endblock %}
+{% block title %}Trang chủ — pkdev{% endblock %}
 
 {% block content %}
-    <!-- Thẻ Hero / Giới thiệu -->
-    <section class="card hero-card" id="about">
-        <span class="badge">Sẵn sàng nhận việc</span>
-        <h1>Xin chào, mình là <span class="highlight">pkdev</span></h1>
-        <p class="subtitle">Lập trình viên Python — đang tìm hiểu và phát triển ứng dụng web với FastAPI.</p>
-    </section>
-
-    <!-- Thẻ Kỹ năng -->
-    <section class="card" id="skills">
-        <h2>Kỹ năng chuyên môn</h2>
-        <div class="skill-grid">
-            <div class="skill-item">
-                <h3>Python</h3>
-                <p>Nắm vững tư duy lập trình cơ bản, cấu trúc dữ liệu và đang xây dựng web API với FastAPI.</p>
-            </div>
+<!-- HERO SECTION -->
+<section class="hero-container">
+    <div class="hero-content">
+        <div class="status-pill">
+            <span class="status-dot"></span> Sẵn sàng nhận công việc mới
         </div>
-    </section>
+        <h1 class="hero-title">
+            Xin chào, mình là <span class="gradient-text">pkdev</span>
+        </h1>
+        <p class="hero-subtitle">
+            Lập trình viên Python chuyên xây dựng ứng dụng web hiện đại và hiệu năng cao với <strong>FastAPI</strong>.
+        </p>
+        <div class="hero-actions">
+            <a href="#contact" class="btn btn-primary">Liên hệ ngay</a>
+            <a href="#projects" class="btn btn-outline">Xem dự án</a>
+        </div>
+    </div>
 
-    <!-- Thẻ Form liên hệ -->
-    <section class="card" id="contact">
-        <h2>Gửi tin nhắn cho mình</h2>
-        <form action="/contact" method="POST">
-            <div class="form-group">
-                <label for="name">Họ và tên</label>
-                <input type="text" id="name" name="name" placeholder="Nguyễn Văn A" required>
+    <!-- Cột phải: Terminal Window Mô phỏng -->
+    <div class="hero-terminal">
+        <div class="terminal-header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="terminal-title">developer.py</span>
+        </div>
+        <div class="terminal-body">
+            <pre><code><span class="code-keyword">class</span> <span class="code-class">Developer</span>:
+    <span class="code-keyword">def</span> <span class="code-func">__init__</span>(self):
+        self.name = <span class="code-str">"pkdev"</span>
+        self.role = <span class="code-str">"Python Backend Developer"</span>
+        self.tech_stack = [<span class="code-str">"Python"</span>, <span class="code-str">"FastAPI"</span>, <span class="code-str">"SQLite"</span>]
+
+    <span class="code-keyword">def</span> <span class="code-func">get_status</span>(self):
+        <span class="code-keyword">return</span> <span class="code-str">"Đang học tập và phát triển..."</span>
+
+dev = Developer()
+print(dev.get_status())</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- QUICK STATS -->
+<section class="stats-grid">
+    <div class="stat-card">
+        <h3>100%</h3>
+        <p>Đam mê Python</p>
+    </div>
+    <div class="stat-card">
+        <h3>FastAPI</h3>
+        <p>Framework chính</p>
+    </div>
+    <div class="stat-card">
+        <h3>Async</h3>
+        <p>Xử lý bất đồng bộ</p>
+    </div>
+</section>
+
+<!-- KỸ NĂNG CÓ THANH TIẾN ĐỘ -->
+<section class="section-block" id="skills">
+    <div class="section-header">
+        <h2>Kỹ năng chuyên môn</h2>
+        <p>Các công nghệ mình tập trung phát triển sâu nhất</p>
+    </div>
+
+    <div class="skills-wrapper">
+        <!-- Skill Item: Python -->
+        <div class="skill-card">
+            <div class="skill-info">
+                <span class="skill-name">Python Core</span>
+                <span class="skill-percent">75%</span>
             </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 75%;"></div>
+            </div>
+            <p class="skill-desc">Nắm vững cú pháp cơ bản, OOP, xử lý file và logic thuật toán.</p>
+        </div>
 
-            <div class="form-group">
-                <label for="email">Địa chỉ Email</label>
-                <input type="email" id="email" name="email" placeholder="name@example.com" required>
+        <!-- Skill Item: FastAPI -->
+        <div class="skill-card">
+            <div class="skill-info">
+                <span class="skill-name">FastAPI & RESTful API</span>
+                <span class="skill-percent">60%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 60%;"></div>
+            </div>
+            <p class="skill-desc">Tạo Route, xử lý Jinja2 Template, Form Request & Validation.</p>
+        </div>
+    </div>
+</section>
+
+<!-- FORM LIÊN HỆ GIAO DIỆN MỚI -->
+<section class="section-block" id="contact">
+    <div class="section-header">
+        <h2>Liên hệ với mình</h2>
+        <p>Hãy gửi tin nhắn, mình sẽ phản hồi lại bạn sớm nhất</p>
+    </div>
+
+    <div class="card form-card">
+        <form action="/contact" method="POST" class="custom-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="name">Họ và tên</label>
+                    <input type="text" id="name" name="name" placeholder="Nguyễn Văn A" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Địa chỉ Email</label>
+                    <input type="email" id="email" name="email" placeholder="name@example.com" required>
+                </div>
             </div>
 
             <div class="form-group">
                 <label for="message">Nội dung tin nhắn</label>
-                <textarea id="message" name="message" placeholder="Nhập nội dung bạn muốn trao đổi..." required></textarea>
+                <textarea id="message" name="message" rows="5" placeholder="Nhập nội dung trao đổi tại đây..." required></textarea>
             </div>
 
-            <button type="submit" class="btn-submit">Gửi tin nhắn</button>
+            <button type="submit" class="btn btn-primary btn-full">
+                Gửi tin nhắn 
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
         </form>
-    </section>
+    </div>
+</section>
 {% endblock %}
