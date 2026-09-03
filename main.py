@@ -17,7 +17,7 @@ def home(request: Request):
 
 @app.get("/contact", response_class=HTMLResponse)
 def contact_page(request: Request):
-    return templates.TemplateResponse("contact.html", {"request": request, "sent": False, "erors": {}, "values": {},)
+    return templates.TemplateResponse("contact.html", {"request": request, "sent": False, "erorrs": {}, "values": {}})
 
 
 @app.post("/contact", response_class=HTMLResponse)
@@ -39,7 +39,7 @@ def contact_submit(
 
     if errors:
         return templates.TemplateResponse(
-            "content.html".
+            "content.html",
          {
             "request": request,
             "sent": False,
@@ -56,4 +56,4 @@ def contact_submit(
             
     
     print(f"Tin nhan moi tu {name} ({email}): {message}")
-    return templates.TemplateResponse("contact.html", {"request": request, "sent": True})
+    return templates.TemplateResponse("contact.html", {"request": request, "sent": True, "values": {}})
