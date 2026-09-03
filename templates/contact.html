@@ -6,9 +6,15 @@
         <p>Cảm ơn bạn, tin nhắn đã được gửi!</p>
     {% else %}
         <form method="post" action="/contact">
-            <input type="text" name="name" placeholder="Tên" required><br>
-            <input type="email" name="email" placeholder="Email" required><br>
-            <textarea name="message" placeholder="Nội dung" required></textarea><br>
+            <input type="text" name="name" placeholder="Tên" value="{{ values.name or '' }}">
+            {% if errors.name %}<p style="color:red;">{{ errors.name }}</p>{% endif %}
+
+            <input type="email" name="email" placeholder="Email" value="{{ values.email or '' }}">
+            {% if errors.email %}<p style="color:red;">{{ errors.email }}</p>{% endif %}
+
+            <textarea name="message" placeholder="Nội dung">{{ values.message or '' }}</textarea>
+            {% if errors.message %}<p style="color:red;">{{ errors.message }}</p>{% endif %}
+
             <button type="submit">Gửi</button>
         </form>
     {% endif %}
