@@ -23,9 +23,9 @@ def contact_page(request: Request):
 @app.post("/contact", response_class=HTMLResponse)
 def contact_submit(
     request: Request,
-    name: str = Form(...),
-    email: str = Form(...),
-    message: str = Form(...),
+    name: str = Form(""),
+    email: str = Form(""),
+    message: str = Form(""),
 ):
     errors = {}
     if len(name.strip()) < 2:
