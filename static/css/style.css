@@ -1,0 +1,95 @@
+/* --- Reset cơ bản: bỏ margin/padding mặc định của trình duyệt --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* --- Toàn trang --- */
+body {
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+    background-color: #f9f9f9;
+    color: #222;
+    line-height: 1.6;
+}
+
+/* --- Thanh điều hướng --- */
+nav {
+    background-color: #1e1e2f;
+    padding: 16px 32px;
+    display: flex;
+    gap: 24px;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+nav a:hover {
+    opacity: 0.7;
+}
+
+/* --- Nội dung chính --- */
+main {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 48px 24px;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 16px;
+    color: #1e1e2f;
+}
+
+p {
+    margin-bottom: 16px;
+    color: #444;
+}
+
+/* --- Form liên hệ --- */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+}
+
+input,
+textarea {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #1e1e2f;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #1e1e2f;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: fit-content;
+}
+
+button:hover {
+    background-color: #33334d;
+}
