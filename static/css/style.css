@@ -1,290 +1,160 @@
-/* --- Biến màu toàn hệ thống --- */
-:root {
-    --primary-color: #2563eb;       /* Xanh dương chủ đạo */
-    --primary-hover: #1d4ed8;       /* Xanh dương đậm khi hover */
-    --bg-color: #f8fafc;            /* Màu nền trang */
-    --card-bg: #ffffff;             /* Màu nền thẻ nội dung */
-    --text-main: #0f172a;           /* Màu chữ chính */
-    --text-muted: #475569;          /* Màu chữ phụ */
-    --border-color: #e2e8f0;        /* Màu đường viền */
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.04);
+/* --- HERO SECTION LAYOUT --- */
+.hero-container {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    padding: 3rem 0;
 }
 
-/* --- Reset cơ bản --- */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
 }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    line-height: 1.6;
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #0284c7;
+    border-radius: 50%;
 }
 
-/* --- Thanh điều hướng Sticky Navbar --- */
-.navbar {
-    background-color: #1e1e2f;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+.hero-title {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
 }
 
-.nav-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 16px 24px;
+.gradient-text {
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* --- TERMINAL WINDOW --- */
+.hero-terminal {
+    background: #0f172a;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    font-family: 'Fira Code', monospace, sans-serif;
+}
+
+.terminal-header {
+    background: #1e293b;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot.red { background: #ef4444; }
+.dot.yellow { background: #f59e0b; }
+.dot.green { background: #10b981; }
+
+.terminal-title {
+    color: #94a3b8;
+    font-size: 0.8rem;
+    margin-left: 8px;
+}
+
+.terminal-body {
+    padding: 1.2rem;
+    color: #e2e8f0;
+    font-size: 0.9rem;
+}
+
+/* Highlight màu code */
+.code-keyword { color: #f43f5e; }
+.code-class { color: #38bdf8; }
+.code-func { color: #a855f7; }
+.code-str { color: #4ade80; }
+
+/* --- PROGRESS BARS FOR SKILLS --- */
+.skills-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.skill-card {
+    background: #ffffff;
+    padding: 1.2rem;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+}
+
+.skill-info {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    color: #ffffff;
-    font-size: 1.25rem;
-    font-weight: 700;
-    text-decoration: none;
-}
-
-.logo span {
-    color: var(--primary-color);
-}
-
-.nav-links {
-    display: flex;
-    gap: 20px;
-}
-
-.nav-links a {
-    color: #94a3b8;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.95rem;
-    transition: color 0.2s ease;
-}
-
-.nav-links a:hover {
-    color: #ffffff;
-}
-
-/* --- Khung nội dung chính --- */
-main {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-/* --- Thẻ Card tổng quát --- */
-.card {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 32px;
-    box-shadow: var(--shadow-sm);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-    box-shadow: var(--shadow-md);
-}
-
-/* --- Thẻ Hero --- */
-.hero-card h1 {
-    font-size: 2.25rem;
-    margin: 12px 0;
-    color: var(--text-main);
-}
-
-.highlight {
-    color: var(--primary-color);
-}
-
-.subtitle {
-    color: var(--text-muted);
-    font-size: 1.1rem;
-}
-
-.badge {
-    display: inline-block;
-    background-color: #dcfce7;
-    color: #166534;
-    padding: 4px 12px;
-    border-radius: 999px;
-    font-size: 0.85rem;
     font-weight: 600;
+    margin-bottom: 8px;
 }
 
-/* --- Phần Kỹ năng --- */
-h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    color: var(--text-main);
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
 }
 
-.skill-grid {
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+    border-radius: 4px;
+}
+
+/* --- STATS GRID --- */
+.stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
 }
 
-.skill-item {
-    background-color: #f1f5f9;
-    padding: 16px 20px;
-    border-radius: 8px;
-    border-left: 4px solid var(--primary-color);
+.stat-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 1.5rem;
+    text-align: center;
+    border-radius: 12px;
 }
 
-.skill-item h3 {
-    font-size: 1.1rem;
-    margin-bottom: 6px;
+.stat-card h3 {
+    font-size: 1.8rem;
+    color: #2563eb;
+    margin-bottom: 4px;
 }
 
-.skill-item p {
-    color: var(--text-muted);
-    font-size: 0.9rem;
+/* --- FORM ROW --- */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
 }
 
-/* --- Form liên hệ --- */
-form {
+.btn-full {
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--text-main);
-}
-
-input,
-textarea {
-    padding: 12px 14px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 1rem;
-    font-family: inherit;
-    background-color: #fafafa;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-textarea {
-    min-height: 120px;
-    resize: vertical;
-}
-
-input:focus,
-textarea:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-    background-color: #ffffff;
-}
-
-/* --- Nút bấm --- */
-.btn-submit {
-    padding: 12px 24px;
-    background-color: var(--primary-color);
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    align-self: flex-start;
-}
-
-.btn-submit:hover {
-    background-color: var(--primary-hover);
-}
-
-.btn-submit:active {
-    transform: scale(0.98);
-}
-
-/* --- Responsive cho điện thoại --- */
-@media (max-width: 600px) {
-    main {
-        padding: 20px 12px;
-    }
-
-    .card {
-        padding: 20px;
-    }
-
-    .hero-card h1 {
-        font-size: 1.75rem;
-    }
-
-    .btn-submit {
-        width: 100%;
-    }
-}
-
-/* --- CSS Bổ sung cho trang Contact (Alerts & Validation) --- */
-
-/* Ô input bị lỗi */
-.input-error {
-    border-color: #ef4444 !important;
-    background-color: #fef2f2 !important;
-}
-
-.input-error:focus {
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
-}
-
-/* Dòng chữ báo lỗi dưới mỗi ô input */
-.error-text {
-    color: #dc2626;
-    font-size: 0.85rem;
-    font-weight: 500;
-    margin-top: 2px;
-}
-
-/* Khung thông báo gửi thành công */
-.alert-success {
-    background-color: #f0fdf4;
-    border: 1px solid #bbf7d0;
-    color: #166534;
-    padding: 16px;
-    border-radius: 8px;
-    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 12px;
-    font-size: 0.95rem;
-    line-height: 1.5;
+    gap: 8px;
 }
 
-.alert-icon {
-    flex-shrink: 0;
-    color: #22c55e;
-}
-
-/* Nút quay lại sau khi gửi */
-.btn-secondary {
-    padding: 10px 18px;
-    background-color: #f1f5f9;
-    color: #334155;
-    border-radius: 6px;
-    font-weight: 500;
-    font-size: 0.9rem;
-    transition: background-color 0.2s;
-}
-
-.btn-secondary:hover {
-    background-color: #e2e8f0;
+/* Responsive cho điện thoại */
+@media (max-width: 768px) {
+    .hero-container, .form-row, .stats-grid {
+        grid-template-columns: 1fr;
+    }
 }
