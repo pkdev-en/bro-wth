@@ -1,21 +1,70 @@
 {% extends "base.html" %}
-{% block title %}Liên hệ{% endblock %}
+
+{% block title %}Liên hệ — pkdev{% endblock %}
+
 {% block content %}
-    <h1>Liên hệ</h1>
+<section class="card">
+    <h2>Liên hệ với mình</h2>
+
     {% if sent %}
-        <p>Cảm ơn bạn, tin nhắn đã được gửi!</p>
+        <!-- Thông báo khi gửi thành công -->
+        <div class="alert alert-success">
+            <svg class="alert-icon" viewBox="0 0 20 20" fill="currentColor" width="20" height="20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            <div>
+                <strong>Cảm ơn bạn!</strong> Tin nhắn của bạn đã được gửi thành công. Mình sẽ phản hồi lại sớm nhất có thể.
+            </div>
+        </div>
+        <a href="/contact" class="btn-secondary" style="display: inline-block; margin-top: 16px; text-decoration: none;">Gửi tin nhắn khác</a>
     {% else %}
-        <form method="post" action="/contact">
-            <input type="text" name="name" placeholder="Tên" value="{{ values.name or '' }}">
-            {% if errors.name %}<p style="color:red;">{{ errors.name }}</p>{% endif %}
+        <!-- Form liên hệ -->
+        <form method="post" action="/contact" novalidate>
+            <div class="form-group">
+                <label for="name">Họ và tên</label>
+                <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    placeholder="Nguyễn Văn A" 
+                    value="{{ values.name or '' }}"
+                    class="{% if errors.name %}input-error{% endif %}"
+                >
+                {% if errors.name %}
+                    <span class="error-text">{{ errors.name }}</span>
+                {% endif %}
+            </div>
 
-            <input type="email" name="email" placeholder="Email" value="{{ values.email or '' }}">
-            {% if errors.email %}<p style="color:red;">{{ errors.email }}</p>{% endif %}
+            <div class="form-group">
+                <label for="email">Địa chỉ Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    placeholder="name@example.com" 
+                    value="{{ values.email or '' }}"
+                    class="{% if errors.email %}input-error{% endif %}"
+                >
+                {% if errors.email %}
+                    <span class="error-text">{{ errors.email }}</span>
+                {% endif %}
+            </div>
 
-            <textarea name="message" placeholder="Nội dung">{{ values.message or '' }}</textarea>
-            {% if errors.message %}<p style="color:red;">{{ errors.message }}</p>{% endif %}
+            <div class="form-group">
+                <label for="message">Nội dung tin nhắn</label>
+                <textarea 
+                    id="message" 
+                    name="message" 
+                    placeholder="Nhập nội dung bạn muốn trao đổi..."
+                    class="{% if errors.message %}input-error{% endif %}"
+                >{{ values.message or '' }}</textarea>
+                {% if errors.message %}
+                    <span class="error-text">{{ errors.message }}</span>
+                {% endif %}
+            </div>
 
-            <button type="submit">Gửi</button>
+            <button type="submit" class="btn-submit">Gửi tin nhắn</button>
         </form>
     {% endif %}
+</section>
 {% endblock %}
