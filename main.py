@@ -39,7 +39,7 @@ def contact_submit(
 
     if errors:
         return templates.TemplateResponse(
-            "content.html",
+            "contact.html",
          {
             "request": request,
             "sent": False,
@@ -56,4 +56,4 @@ def contact_submit(
             
     
     print(f"Tin nhan moi tu {name} ({email}): {message}")
-    return templates.TemplateResponse("contact.html", {"request": request, "sent": True, "values": {}})
+    return templates.TemplateResponse("contact.html", {"request": request, "sent": True, "errors": {}, "values": {}})
