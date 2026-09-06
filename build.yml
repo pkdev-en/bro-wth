@@ -1,0 +1,58 @@
+name: Build Unsigned Blender iOS
+
+on:
+  workflow_dispatch: # Cho phép nhấn nút Run Workflow thủ công trên GitHub UI
+
+jobs:
+  build-ios:
+    runs-on: macos-14 # Dùng máy ảo macOS M1/M2 của GitHub
+    
+    steps:
+      - name: Checkout Blender Repository
+        uses: actions/checkout@v4
+        with:
+          repository: 'blender/blender'
+          ref: 'ios'
+          lfs: true
+
+      - name: Setup Homebrew & Tools
+        run: |
+          brew install git-lfs cmake
+
+      - name: Fetch LFS & Dependencies
+        run: |
+          git lfs update
+          git lfs fetch origin
+          git lfs pull
+          python3 ./build_files/utils/make_update.py --use-ios-libraries
+
+      - name: Generate Xcode Project with CMake
+        run: |
+          cmake -G Xcode -S . -B build_ios \
+            -DCMAKE_SYSTEM_NAME=iOS \
+            -DCMAKE_OSX_SYSROOT=iphoneos
+
+      - name: Build Unsigned Application
+        run: |
+          xcodebuild -project build_ios/Blender.xcodeproj \
+                     -scheme Blender \
+                     -configuration Release \
+                     -sdk iphoneos \
+                     CODE_SIGN_IDENTITY="" \
+                     CODE_SIGNING_REQUIRED=NO \
+                     CODE_SIGNING_ALLOWED=NO \
+                     build
+
+      - name: Package to IPA
+        run: |
+          mkdir -p Payload
+          # Copy thư mục .app vừa build vào Payload
+          cp -r build_ios/Release-iphoneos/Blender.app Payload/
+          # Nén thư mục Payload thành file .ipa
+          zip -r Blender-Unsigned.ipa Payload
+
+      - name: Upload Unsigned IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Blender-Unsigned-IPA
+          path: Blender-Unsigned.ipa
