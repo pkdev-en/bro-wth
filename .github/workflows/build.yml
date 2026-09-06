@@ -1,29 +1,26 @@
 name: Build Unsigned Blender iOS
 
 on:
-  workflow_dispatch: # Cho phép nhấn nút Run Workflow thủ công trên GitHub UI
+  workflow_dispatch:
 
 jobs:
   build-ios:
-    runs-on: macos-14 # Dùng máy ảo macOS M1/M2 của GitHub
+    runs-on: macos-14
     
     steps:
-      - name: Checkout Blender Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          repository: 'blender/blender'
-          ref: 'ios'
-          lfs: true
+          repository: blender/blender
+          ref: ios
+          lfs: false
 
       - name: Setup Homebrew & Tools
         run: |
-          brew install git-lfs cmake
+          brew install cmake
 
-      - name: Fetch LFS & Dependencies
+      - name: Fetch Dependencies
         run: |
-          git lfs update
-          git lfs fetch origin
-          git lfs pull
           python3 ./build_files/utils/make_update.py --use-ios-libraries
 
       - name: Generate Xcode Project with CMake
@@ -35,20 +32,18 @@ jobs:
       - name: Build Unsigned Application
         run: |
           xcodebuild -project build_ios/Blender.xcodeproj \
-                     -scheme Blender \
-                     -configuration Release \
-                     -sdk iphoneos \
-                     CODE_SIGN_IDENTITY="" \
-                     CODE_SIGNING_REQUIRED=NO \
-                     CODE_SIGNING_ALLOWED=NO \
-                     build
+                    -scheme Blender \
+                    -configuration Release \
+                    -sdk iphoneos \
+                    CODE_SIGN_IDENTITY="" \
+                    CODE_SIGNING_REQUIRED=NO \
+                    CODE_SIGNING_ALLOWED=NO \
+                    build
 
       - name: Package to IPA
         run: |
           mkdir -p Payload
-          # Copy thư mục .app vừa build vào Payload
           cp -r build_ios/Release-iphoneos/Blender.app Payload/
-          # Nén thư mục Payload thành file .ipa
           zip -r Blender-Unsigned.ipa Payload
 
       - name: Upload Unsigned IPA Artifact
