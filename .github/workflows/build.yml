@@ -17,7 +17,7 @@ jobs:
 
       - name: Setup Homebrew & Tools
         run: |
-          brew install cmake
+          brew install cmake freetype
 
       - name: Fetch Dependencies
         run: |
@@ -31,7 +31,9 @@ jobs:
             -DPYTHON_VERSION=3.13 \
             -DPYTHON_ROOT_DIR="$(pwd)/lib/macos_arm64/python" \
             -DPYTHON_LIBRARY="$(pwd)/lib/macos_arm64/python/lib/libpython3.13.dylib" \
-            -DPYTHON_INCLUDE_DIR="$(pwd)/lib/macos_arm64/python/include/python3.13"
+            -DPYTHON_INCLUDE_DIR="$(pwd)/lib/macos_arm64/python/include/python3.13" \
+            -DFREETYPE_LIBRARY=/opt/homebrew/lib/libfreetype.dylib \
+            -DFREETYPE_INCLUDE_DIRS=/opt/homebrew/include/freetype2
 
       - name: Build Unsigned Application
         run: |
