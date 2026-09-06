@@ -27,7 +27,8 @@ jobs:
         run: |
           cmake -G Xcode -S . -B build_ios \
             -DCMAKE_SYSTEM_NAME=iOS \
-            -DCMAKE_OSX_SYSROOT=iphoneos
+            -DCMAKE_OSX_SYSROOT=iphoneos \
+            -DPYTHON_VERSION=3.13
 
       - name: Build Unsigned Application
         run: |
