@@ -14,41 +14,47 @@ jobs:
           ref: ios
           lfs: true
           fetch-depth: 0
+          path: Blender
 
       - name: Install tools
         run: |
           brew update
           brew install cmake ninja git-lfs python
-
           git lfs install
 
       - name: Download Blender libraries
+        working-directory: Blender
         run: |
           make update
 
       - name: Build host tools
         run: |
-          mkdir ../build_host
-          cd ../build_host
+          mkdir -p build_darwin_clean
+          cd build_darwin_clean
 
           cmake ../Blender \
-            -DCMAKE_BUILD_TYPE=Release
+            -DCMAKE_BUILD_TYPE=Release \
+            -DAPPLE_TARGET_DEVICE=macos
 
           cmake --build . \
+            --target makesdna \
+            --target makesrna \
             --target datatoc \
             --target glsl_preprocess \
             -j$(sysctl -n hw.ncpu)
 
       - name: Configure iOS
+        working-directory: Blender
         run: |
           cmake \
             -S . \
             -B build_ios \
             -G Xcode \
             -DAPPLE_TARGET_DEVICE=ios \
-            -DBLENDER_IOS_HOST_TOOLS_DIR=$(pwd)/../build_host/bin
+            -DBLENDER_IOS_HOST_TOOLS_DIR=$(pwd)/../build_darwin_clean/bin
 
       - name: Build
+        working-directory: Blender
         run: |
           cmake --build build_ios \
             --config Release \
@@ -59,4 +65,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Blender.app
-          path: build_ios/bin/Release
+          path: Blender/build_ios/bin/Release
