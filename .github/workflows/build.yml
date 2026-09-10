@@ -1,59 +1,62 @@
-name: Build Unsigned Blender iOS
+name: Build Blender iOS
 
 on:
   workflow_dispatch:
 
 jobs:
-  build-ios:
+  build:
     runs-on: macos-15
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          repository: blender/blender
+          repository: HoloMoto/Blender_for_AppleVisionPro
           ref: ios
-          lfs: false
+          lfs: true
+          fetch-depth: 0
 
-      - name: Setup Homebrew & Tools
+      - name: Install tools
         run: |
-          brew install cmake freetype
+          brew update
+          brew install cmake ninja git-lfs python
 
-      - name: Fetch Dependencies
+          git lfs install
+
+      - name: Download Blender libraries
         run: |
-          python3 ./build_files/utils/make_update.py --use-ios-libraries
+          make update
 
-      - name: Generate Xcode Project with CMake
+      - name: Build host tools
         run: |
-          cmake -G Xcode -S . -B build_ios \
-            -DCMAKE_SYSTEM_NAME=iOS \
-            -DCMAKE_OSX_SYSROOT=iphoneos \
-            -DPYTHON_VERSION=3.13 \
-            -DPYTHON_ROOT_DIR="$(pwd)/lib/macos_arm64/python" \
-            -DPYTHON_LIBRARY="$(pwd)/lib/macos_arm64/python/lib/libpython3.13.dylib" \
-            -DPYTHON_INCLUDE_DIR="$(pwd)/lib/macos_arm64/python/include/python3.13" \
-            -DFREETYPE_LIBRARY=/opt/homebrew/lib/libfreetype.dylib \
-            -DFREETYPE_INCLUDE_DIRS=/opt/homebrew/include/freetype2
+          mkdir ../build_host
+          cd ../build_host
 
-      - name: Build Unsigned Application
+          cmake ../Blender \
+            -DCMAKE_BUILD_TYPE=Release
+
+          cmake --build . \
+            --target datatoc \
+            --target glsl_preprocess \
+            -j$(sysctl -n hw.ncpu)
+
+      - name: Configure iOS
         run: |
-          xcodebuild -project build_ios/Blender.xcodeproj \
-                    -scheme Blender \
-                    -configuration Release \
-                    -sdk iphoneos \
-                    CODE_SIGN_IDENTITY="" \
-                    CODE_SIGNING_REQUIRED=NO \
-                    CODE_SIGNING_ALLOWED=NO \
-                    build
+          cmake \
+            -S . \
+            -B build_ios \
+            -G Xcode \
+            -DAPPLE_TARGET_DEVICE=ios \
+            -DBLENDER_IOS_HOST_TOOLS_DIR=$(pwd)/../build_host/bin
 
-      - name: Package to IPA
+      - name: Build
         run: |
-          mkdir -p Payload
-          cp -r build_ios/Release-iphoneos/Blender.app Payload/
-          zip -r Blender-Unsigned.ipa Payload
+          cmake --build build_ios \
+            --config Release \
+            --target blender \
+            -j$(sysctl -n hw.ncpu)
 
-      - name: Upload Unsigned IPA Artifact
+      - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: Blender-Unsigned-IPA
-          path: Blender-Unsigned.ipa
+          name: Blender.app
+          path: build_ios/bin/Release
