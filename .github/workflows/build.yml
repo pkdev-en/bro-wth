@@ -1,20 +1,21 @@
-name: Build Blender iOS
+name: Bootstrap Blender macOS Libs
 
 on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-libs:
     runs-on: macos-15
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout upstream Blender (for submodule-based lib fetch)
+        uses: actions/checkout@v4
         with:
-          repository: HoloMoto/Blender_for_AppleVisionPro
-          ref: ios
+          repository: blender/blender
+          ref: main
           lfs: true
           fetch-depth: 0
-          path: Blender
+          path: blender_upstream
 
       - name: Install tools
         run: |
@@ -22,47 +23,35 @@ jobs:
           brew install cmake ninja git-lfs python
           git lfs install
 
-      - name: Download Blender libraries
-        working-directory: Blender
+      - name: Fetch precompiled libraries via make update
+        working-directory: blender_upstream
         run: |
           make update
 
-      - name: Build host tools
+      - name: Verify libs populated
         run: |
-          mkdir -p build_darwin_clean
-          cd build_darwin_clean
+          test -d blender_upstream/lib/macos_arm64/python || \
+            (echo "macos_arm64 libs missing after make update" && exit 1)
+          ls -la blender_upstream/lib/
 
-          cmake ../Blender \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DAPPLE_TARGET_DEVICE=macos
-
-          cmake --build . \
-            --target makesdna \
-            --target makesrna \
-            --target datatoc \
-            --target glsl_preprocess \
-            -j$(sysctl -n hw.ncpu)
-
-      - name: Configure iOS
-        working-directory: Blender
+      - name: Archive libraries
         run: |
-          cmake \
-            -S . \
-            -B build_ios \
-            -G Xcode \
-            -DAPPLE_TARGET_DEVICE=ios \
-            -DBLENDER_IOS_HOST_TOOLS_DIR=$(pwd)/../build_darwin_clean/bin
+          tar -czf macos_arm64_libs.tar.gz -C blender_upstream/lib macos_arm64
+          ls -lh macos_arm64_libs.tar.gz
 
-      - name: Build
-        working-directory: Blender
-        run: |
-          cmake --build build_ios \
-            --config Release \
-            --target blender \
-            -j$(sysctl -n hw.ncpu)
-
-      - name: Upload
+      - name: Upload as workflow artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Blender.app
-          path: Blender/build_ios/bin/Release
+          name: macos_arm64_libs
+          path: macos_arm64_libs.tar.gz
+          retention-days: 90
+
+      - name: Publish to GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete blender-libs-macos-arm64 --yes --repo "${{ github.repository }}" || true
+          gh release create blender-libs-macos-arm64 macos_arm64_libs.tar.gz \
+            --repo "${{ github.repository }}" \
+            --title "Blender macOS arm64 precompiled libs" \
+            --notes "Auto-built by bootstrap workflow. Consumed by the main iOS build workflow."
